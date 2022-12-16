@@ -111,7 +111,9 @@ class DropzoneArea extends PureComponent<DropzoneAreaProps, DropzoneAreaState> {
   loadInitialFiles = async () => {
     const { initialFiles = DropzoneArea.defaultProps.initialFiles } =
       this.props;
-
+    if (!initialFiles?.length) {
+      return;
+    }
     try {
       const fileObjs = await Promise.all(
         initialFiles.map(async (initialFile) => {
@@ -130,7 +132,7 @@ class DropzoneArea extends PureComponent<DropzoneAreaProps, DropzoneAreaState> {
 
       this.setState(
         (prevState: DropzoneAreaState) => ({
-          fileObjects: [...prevState.fileObjects, ...fileObjs],
+          fileObjects: fileObjs,
         }),
         this.notifyFileChange
       );

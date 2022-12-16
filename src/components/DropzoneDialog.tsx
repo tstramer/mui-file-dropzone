@@ -100,6 +100,9 @@ class DropzoneDialog extends PureComponent<
   loadInitialFiles = async () => {
     const { initialFiles = DropzoneDialog.defaultProps.initialFiles } =
       this.props;
+    if (!initialFiles?.length) {
+      return;
+    }
     try {
       const fileObjs = await Promise.all(
         initialFiles.map(async (initialFile) => {
@@ -118,7 +121,7 @@ class DropzoneDialog extends PureComponent<
 
       this.setState(
         (state) => ({
-          fileObjects: [...state.fileObjects, ...fileObjs],
+          fileObjects: fileObjs,
         }),
         this.notifyFileChange
       );
